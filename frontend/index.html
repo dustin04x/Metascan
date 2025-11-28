@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MetaScan - Image Forensics Metadata Inspector</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app">
+        <!-- Header -->
+        <header class="header">
+            <h1>MetaScan</h1>
+            <p class="subtitle">Image Forensics Metadata Inspector</p>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Upload Section (shown initially) -->
+            <div id="uploadSection" class="section">
+                <div class="dropzone" id="dropzone">
+                    <input type="file" id="fileInput" class="file-input" accept="image/*">
+                    <div class="dropzone-content">
+                        <p class="drag-text">📁 Drag and drop an image here</p>
+                        <p class="or-text">or</p>
+                        <button type="button" class="browse-button" id="browseBtn">Browse Files</button>
+                    </div>
+                    <div class="spinner hidden" id="spinner"></div>
+                    <p class="loading-text hidden" id="loadingText">Analyzing image...</p>
+                </div>
+                <div class="error-message hidden" id="errorMessage"></div>
+            </div>
+
+            <!-- Results Section (shown after upload) -->
+            <div id="resultsSection" class="section hidden">
+                <!-- Results Header -->
+                <div class="results-header">
+                    <div class="header-left">
+                        <img id="thumbnailPreview" class="thumbnail-preview hidden" alt="Preview">
+                        <div class="file-info-header">
+                            <h2 id="fileName"></h2>
+                            <p id="fileInfo"></p>
+                        </div>
+                    </div>
+                    <div class="header-actions">
+                        <button type="button" class="btn btn-secondary" id="exportJsonBtn">📥 Export JSON</button>
+                        <button type="button" class="btn btn-secondary hidden" id="downloadThumbBtn">🖼️ Download Thumbnail</button>
+                        <button type="button" class="btn btn-primary" id="newFileBtn">← New File</button>
+                    </div>
+                </div>
+
+                <!-- Anomalies Section -->
+                <div id="anomaliesSection" class="anomalies-section hidden">
+                    <h3>⚠️ Forensic Findings</h3>
+                    <ul class="anomalies-list" id="anomaliesList"></ul>
+                </div>
+
+                <!-- Tabs -->
+                <div class="tabs">
+                    <button type="button" class="tab active" data-tab="overview">Overview</button>
+                    <button type="button" class="tab" data-tab="exif">EXIF</button>
+                    <button type="button" class="tab" data-tab="hashes">Hashes & Entropy</button>
+                    <button type="button" class="tab" data-tab="json">Full JSON</button>
+                </div>
+
+                <!-- Tab Content -->
+                <div class="tab-content">
+                    <!-- Overview Tab -->
+                    <div class="tab-pane active" id="tab-overview">
+                        <table class="metadata-table">
+                            <tbody id="overviewTable"></tbody>
+                        </table>
+                    </div>
+
+                    <!-- EXIF Tab -->
+                    <div class="tab-pane" id="tab-exif">
+                        <h3>EXIF Data</h3>
+                        <table class="metadata-table">
+                            <tbody id="exifTable"></tbody>
+                        </table>
+                        <div id="gpsSection" class="gps-section hidden">
+                            <h4>GPS Information</h4>
+                            <table class="metadata-table">
+                                <tbody id="gpsTable"></tbody>
+                            </table>
+                        </div>
+                        <div id="otherExifSection" class="other-exif-section hidden">
+                            <h4>Other EXIF Tags</h4>
+                            <table class="metadata-table">
+                                <tbody id="otherExifTable"></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Hashes & Entropy Tab -->
+                    <div class="tab-pane" id="tab-hashes">
+                        <h3>Cryptographic Hashes</h3>
+                        <table class="metadata-table">
+                            <tbody id="hashesTable"></tbody>
+                        </table>
+
+                        <h3>Entropy Analysis</h3>
+                        <div class="entropy-info">
+                            <div class="metric">
+                                <strong>File Entropy:</strong> <span id="entropyValue"></span> (0=uniform, 8=maximum)
+                                <div class="entropy-bar">
+                                    <div class="entropy-fill" id="entropyBar"></div>
+                                </div>
+                            </div>
+                            <div class="metric">
+                                <strong>LSB Variance:</strong> <span id="lsbValue"></span>
+                                <p class="hint">Higher values suggest possible steganography.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- JSON Tab -->
+                    <div class="tab-pane" id="tab-json">
+                        <div class="json-header">
+                            <h3>Complete Metadata (JSON)</h3>
+                            <button type="button" class="btn btn-secondary btn-small" id="copyJsonBtn">📋 Copy</button>
+                        </div>
+                        <pre class="json-content" id="jsonContent"></pre>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>⚠️ Privacy Notice: All processing is local to your browser and backend. No data is sent to external servers.</p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+{
+  "name": "metascan",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "npx http-server . -p 5173 -o",
+    "start": "npx http-server . -p 5173"
+  },
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
+}
