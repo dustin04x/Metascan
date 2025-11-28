@@ -3,7 +3,6 @@
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.104+-green.svg)](https://fastapi.tiangolo.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Live Demo](https://img.shields.io/badge/Live_Demo-Visit%20Site-purple.svg)](https://metascan-kappa.vercel.app)
 
 **MetaScan** is a comprehensive web-based image forensics tool designed for local metadata extraction and analysis. Built with privacy in mind, all processing happens locally on your machine without any external network calls.
 
@@ -334,4 +333,3 @@ This project is provided as-is for educational and research purposes. See [LICEN
 
 **⚡ Start analyzing images locally with MetaScan - your privacy-focused forensics solution!**
 
-For live demo, visit: [https://metascan-kappa.vercel.app](https://metascan-kappa.vercel.app)
