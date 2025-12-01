@@ -248,6 +248,63 @@ npm run dev
 python -m http.server 5173 --directory frontend
 ```
 
+## Deployment to GitHub Pages
+
+The frontend is automatically deployed to GitHub Pages when you push to the main branch.
+
+### Setup (One-time)
+
+1. Go to your GitHub repository settings
+2. Navigate to **Settings → Pages**
+3. Set **Source** to "Deploy from a branch"
+4. Set **Branch** to `main` and folder to `/ (root)`
+5. Click **Save**
+
+### Auto-Deploy with GitHub Actions
+
+The repository includes a GitHub Actions workflow (`.github/workflows/deploy.yml`) that automatically:
+- Installs dependencies
+- Builds the frontend
+- Deploys to GitHub Pages on every push to `main`
+
+Your frontend will be available at: `https://dustin04x.github.io/Metascan/`
+
+### Using the Deployed Frontend
+
+The deployed frontend needs a backend to function. You have two options:
+
+**Option 1: Use a Local Backend**
+1. Clone the repository locally
+2. Follow the "Running the Application" section above
+3. The local frontend will connect to your local backend (http://localhost:8000)
+
+**Option 2: Deploy Backend Separately** (Advanced)
+- Deploy the backend to a service like Heroku, AWS, DigitalOcean, etc.
+- Modify `frontend/app.js` line with the API endpoint to point to your deployed backend
+
+## Building for Production
+
+### Backend
+
+```bash
+# No special build needed; run with Gunicorn or similar:
+pip install gunicorn
+gunicorn app:app --workers 4 --worker-class uvicorn.workers.UvicornWorker
+```
+
+### Frontend
+
+The frontend is vanilla HTML/CSS/JavaScript and requires no build step.
+Simply serve the `frontend/` folder with any static web server:
+
+```bash
+# Using Node.js http-server:
+npm run dev
+
+# Or with any other server (nginx, Apache, Python, etc.)
+python -m http.server 5173 --directory frontend
+```
+
 ## Known Limitations & Future Improvements
 
 - **Hex viewer** is currently a stub (requires backend integration to stream raw bytes)
