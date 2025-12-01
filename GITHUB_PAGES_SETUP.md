@@ -1,69 +1,85 @@
 # GitHub Pages Setup Instructions
 
-## Fix the Permission Error
+## How It Works
 
-The workflow was failing because GitHub Pages deploy action needed proper permissions. This has been fixed.
+Your MetaScan frontend will be automatically deployed to GitHub Pages. The workflow will:
+1. Trigger on every push to the `main` branch
+2. Create a `gh-pages` branch automatically
+3. Deploy your frontend to that branch
+4. Make it live at: `https://dustin04x.github.io/Metascan/`
 
-## Manual Setup Required (One-time)
-
-Follow these steps to enable GitHub Pages in your repository:
+## Setup Steps (One-time)
 
 ### Step 1: Go to Repository Settings
 1. Open: https://github.com/dustin04x/Metascan
 2. Click **Settings** (top navigation)
 3. Scroll down to find **Pages** section
 
-### Step 2: Enable GitHub Pages
+### Step 2: Configure GitHub Pages
 1. Under "Source", select:
    - **Deploy from a branch**
 2. Select:
-   - **Branch:** `gh-pages`
+   - **Branch:** `gh-pages` (will be created automatically)
    - **Folder:** `/ (root)`
 3. Click **Save**
 
-### Step 3: Wait for Initial Deployment
-- GitHub will run the workflow and create the `gh-pages` branch
-- This may take 1-2 minutes
-- Check the **Actions** tab to monitor progress
+**Note:** The `gh-pages` branch doesn't exist yet - it will be created automatically by the GitHub Actions workflow on first deployment.
 
-### Step 4: Access Your Deployed App
-Once deployment completes, your app will be available at:
+### Step 3: Trigger the Workflow
+The workflow has already been set up. It will:
+- Run automatically when you push to `main`
+- Create the `gh-pages` branch
+- Deploy the frontend
+
+### Step 4: Monitor Deployment
+1. Go to your repository
+2. Click **Actions** tab
+3. Look for "Deploy to GitHub Pages" workflow
+4. Wait for it to complete (green checkmark)
+
+### Step 5: Access Your App
+Once deployment completes, visit:
 ```
 https://dustin04x.github.io/Metascan/
 ```
 
-## What Changed in the Workflow
+## Automatic Workflow
 
-The updated `.github/workflows/deploy.yml` now:
-- ✅ Includes proper permissions block
-- ✅ Uses official GitHub Pages deployment action
-- ✅ Configures environment for GitHub Pages
-- ✅ Should deploy successfully without permission errors
+After the initial setup, every push to `main` will:
+- ✅ Automatically trigger the workflow
+- ✅ Build the frontend
+- ✅ Deploy to GitHub Pages
+- ✅ Update your live site
 
-## If You Still See Errors
+## Troubleshooting
 
-1. **Check Actions Tab**
-   - Go to: https://github.com/dustin04x/Metascan/actions
-   - Click the latest workflow run
-   - Check for error messages
+### No `gh-pages` branch showing
+- This is normal! The workflow creates it on first run
+- After the workflow completes, the branch will appear
+- You can see it in the branches dropdown
 
-2. **Verify Settings**
-   - Settings → Pages
-   - Make sure source is set to `gh-pages` branch
-   - Folder should be `/ (root)`
+### Workflow still failing
+1. Check **Actions** tab for error details
+2. Verify GitHub Pages settings (Source: `gh-pages` / Root)
+3. Make sure you saved the Pages settings
 
-3. **Check Branch Exists**
-   - Go to Code tab
-   - Switch to `gh-pages` branch
-   - Should have frontend files
+### Site not updating
+- Wait 1-2 minutes for workflow to complete
+- Refresh browser (hard refresh: Ctrl+Shift+R or Cmd+Shift+R)
+- Check browser cache if still seeing old version
 
-## Next Steps
+## Backend Setup
 
-1. Enable GitHub Pages following Step 1-3 above
-2. Wait for the workflow to complete
-3. Visit your GitHub Pages URL
-4. Run backend locally to test the full app
+To use the full MetaScan app, you also need to run the backend:
+
+```bash
+cd backend
+pip install -r requirements.txt
+python -m uvicorn app:app --host 127.0.0.1 --port 8000
+```
+
+Then visit your GitHub Pages URL and start uploading images to analyze!
 
 ---
 
-**The workflow fix has been pushed to your repository!**
+**All set! The workflow is ready to deploy your app to GitHub Pages.**
