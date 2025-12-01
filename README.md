@@ -1,137 +1,113 @@
-# MetaScan
+# 🔍 MetaScan - Local Image Forensics Tool
 
-A web application for local image forensics metadata inspection. Analyzes images for EXIF data, GPS coordinates, file hashes, entropy, and other forensic indicators—all processed locally without external network calls.
+[![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.104+-green.svg)](https://fastapi.tiangolo.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-## Features
+**MetaScan** is a comprehensive web-based image forensics tool designed for local metadata extraction and analysis. Built with privacy in mind, all processing happens locally on your machine without any external network calls.
 
-- **Local Processing**: All analysis happens on your machine
-- **Comprehensive Metadata Extraction**:
-  - EXIF (camera make, model, datetime, exposure, ISO, focal length, etc.)
-  - GPS coordinates (decimal degrees format)
-  - XMP and IPTC (best-effort extraction)
-  - Embedded thumbnails
-- **Forensic Analysis**:
-  - Cryptographic hashes (MD5, SHA1, SHA256)
-  - Shannon entropy (randomness indicator)
-  - LSB (Least Significant Bit) variance detection
-  - Anomaly detection (suspicious findings)
-- **User-Friendly Interface**:
-  - Drag-and-drop file upload
-  - Responsive tabbed metadata view
-  - JSON export and thumbnail download
-  - Simple hex viewer stub
+## ✨ Key Features
 
-## Privacy
+### 🔒 Privacy-First Architecture
+- **100% Local Processing** - No data sent to external servers
+- **Client-side analysis** - All computations performed locally
+- **Browser-based interface** - No server-side storage
 
-This application does **not** send your images or metadata to any external server. All processing is performed locally on your machine. However:
+### 📊 Comprehensive Metadata Extraction
+- **EXIF Data**: Camera settings, timestamps, orientation, ISO, exposure details
+- **GPS Coordinates**: Embedded location data in decimal degrees format
+- **XMP/IPTC Data**: Extended metadata with best-effort parsing
+- **Embedded Thumbnails**: Extracted image previews
 
-- **Local storage**: The metadata is retained in your browser session until you refresh.
-- **Browser cache**: Your browser may cache the image data.
-- For production use, consider adding explicit privacy policies and terms.
+### 🔐 Forensic Analysis
+- **Cryptographic Hashes**: MD5, SHA1, SHA256 for integrity verification
+- **Shannon Entropy**: Randomness indicator for detecting alterations
+- **LSB Variance**: Least Significant Bit analysis for steganography detection
+- **Anomaly Detection**: Automated flagging of suspicious findings
 
-## Project Structure
+### 🎨 User-Friendly Interface
+- **Drag & Drop Upload**: Intuitive file handling
+- **Responsive Design**: Works on desktop and mobile devices
+- **Tabbed Navigation**: Organized metadata presentation
+- **Export Options**: JSON download and thumbnail extraction
+- **Basic Hex Viewer**: Raw byte inspection
 
-```
-MetaScan/
-├── backend/
-│   ├── app.py                 # FastAPI main application
-│   ├── requirements.txt        # Python dependencies
-│   └── test_app.py           # Unit tests
-├── frontend/
-│   ├── index.html             # Main HTML page
-│   ├── app.js                 # Vanilla JavaScript
-│   ├── styles.css             # All styles (consolidated)
-│   ├── package.json           # http-server dependency
-│   └── vite.config.js         # (deprecated - using http-server now)
-├── README.md                  # This file
-└── .gitignore
-```
+## 🚀 Quick Start
 
-## Prerequisites
-
+### Prerequisites
 - **Python 3.11+**
-- **Node.js 16+** and npm/yarn
-- Recent versions of pip
+- **Node.js 16+** (for frontend development server)
+- **Modern web browser**
 
-## Installation
+### Installation
 
-### Backend Setup
-
-1. **Create a virtual environment** (recommended):
-   ```bash
-   cd backend
-   python -m venv venv
-   
-   # On Windows:
-   venv\Scripts\activate
-   # On macOS/Linux:
-   source venv/bin/activate
-   ```
-
-2. **Install dependencies**:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-3. **Run tests** (optional):
-   ```bash
-   pytest test_app.py -v
-   ```
-
-### Frontend Setup
-
-1. **Install dependencies** (http-server for serving static files):
-   ```bash
-   cd frontend
-   npm install
-   ```
-
-## Running the Application
-
-### Start Backend
-
-From the `backend` directory:
-
+#### 1. Backend Setup
 ```bash
-# With virtual environment activated:
+# Clone the repository
+git clone https://github.com/dustin04x/Metascan.git
+cd Metascan/backend
+
+# Create virtual environment
+python -m venv venv
+
+# Activate virtual environment
+# Windows:
+venv\Scripts\activate
+# macOS/Linux:
+source venv/bin/activate
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Run tests (optional)
+pytest test_app.py -v
+```
+
+#### 2. Frontend Setup
+```bash
+cd ../frontend
+
+# Install dependencies
+npm install
+```
+
+### Running the Application
+
+#### Start Backend
+```bash
+# From backend directory (with virtual environment activated)
 python app.py
 
-# or using uvicorn directly:
+# Alternative using uvicorn directly
 uvicorn app:app --host 127.0.0.1 --port 8000 --reload
+
+# Backend will be available at http://localhost:8000
 ```
 
-Backend will be available at `http://localhost:8000`
-
-Health check: `curl http://localhost:8000/health`
-
-### Start Frontend
-
-From the `frontend` directory:
-
+#### Start Frontend
 ```bash
+# From frontend directory
 npm run dev
+
+# Frontend will be available at http://localhost:5173
 ```
 
-Frontend will be available at `http://localhost:5173`
+#### Access the Application
+Open your browser and navigate to **http://localhost:5173** to start analyzing images.
 
-Note: The frontend is vanilla HTML/CSS/JavaScript with no build step needed.
+## 📖 API Documentation
 
-### Open in Browser
+### Endpoints
 
-Navigate to `http://localhost:5173` and upload an image to analyze.
+#### POST `/api/inspect`
+Analyzes an uploaded image file and returns comprehensive metadata.
 
-## API Documentation
-
-### POST /api/inspect
-
-Analyzes an image file and returns forensic metadata.
-
-**Request**:
+**Request:**
 ```bash
 curl -X POST -F "file=@image.jpg" http://localhost:8000/api/inspect
 ```
 
-**Response** (Success - 200):
+**Success Response:**
 ```json
 {
   "success": true,
@@ -148,22 +124,16 @@ curl -X POST -F "file=@image.jpg" http://localhost:8000/api/inspect
       "datetime_original": "2024:01:15 14:30:22",
       "make": "Canon",
       "model": "Canon EOS 5D Mark IV",
-      "orientation": 1,
       "iso": 400,
       "f_number": "f/2.8",
       "exposure": "1/500",
-      "focal_length": "85.0mm",
-      "software": null,
-      "other_tags": { ... }
+      "focal_length": "85.0mm"
     },
     "gps": {
       "lat": 40.7128,
-      "lon": -74.0060,
+      "lon": -74.006,
       "alt": 10.5
     },
-    "xmp_data": { ... },
-    "iptc_data": { ... },
-    "thumbnail_base64": "iVBORw0KGgoAAAANSUhEU...",
     "hashes": {
       "md5": "a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6",
       "sha1": "a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0",
@@ -179,51 +149,110 @@ curl -X POST -F "file=@image.jpg" http://localhost:8000/api/inspect
 }
 ```
 
-**Response** (Error - 400/500):
+#### GET `/health`
+Simple health check endpoint.
+
+**Response:**
 ```json
 {
-  "success": false,
-  "error": "Error message",
-  "detail": "Human-readable detail"
+  "status": "healthy"
 }
 ```
 
-### GET /health
+## 🔧 Configuration
 
-Simple health check endpoint.
+### Backend Configuration
+Located in `backend/app.py`:
 
-## Testing
+```python
+# File size limit (default: 50MB)
+MAX_FILE_SIZE = 50 * 1024 * 1024
 
-### Backend Unit Tests
+# CORS origins
+allow_origins = ["http://localhost:5173"]
 
+# Server settings (uvicorn.run() call)
+host = "127.0.0.1"
+port = 8000
+```
+
+### Frontend Configuration
+Located in `frontend/app.js`:
+
+```javascript
+// Backend API endpoint
+const API_BASE_URL = "http://localhost:8000";
+
+// Tab names and display settings
+// Result formatting options
+```
+
+## 📁 Project Structure
+
+```
+Metascan/
+├── backend/
+│   ├── app.py              # FastAPI main application
+│   ├── requirements.txt     # Python dependencies
+│   └── test_app.py          # Unit tests
+├── frontend/
+│   ├── index.html           # Main HTML page
+│   ├── app.js              # Vanilla JavaScript logic
+│   ├── styles.css          # All styles consolidated
+│   └── package.json        # http-server dependency
+├── README.md               # This file
+├── .gitignore             # Git ignore rules
+├── .env.example           # Environment variables example
+└── START_METASCAN.bat     # Windows startup script
+```
+
+## 🧪 Testing
+
+### Unit Tests
 ```bash
+# Run all tests
 cd backend
 pytest test_app.py -v
 
-# With coverage:
+# Run with coverage report
 pytest test_app.py --cov=app --cov-report=html
+
+# Run specific test categories
+pytest test_app.py -k "hash"      # Test hash calculations
+pytest test_app.py -k "entropy"   # Test entropy calculations
+pytest test_app.py -k "lsb"       # Test LSB variance detection
 ```
 
-**Test Coverage**:
+### Test Coverage Areas
 - Hash calculation consistency and correctness
 - Entropy computation (uniform, random, repeating patterns)
-- LSB variance detection
-- Anomaly detection (high entropy, GPS, missing EXIF)
+- LSB variance detection algorithms
+- Anomaly detection logic (GPS, missing EXIF, high entropy)
 
-## Dependencies
+## 🚀 Production Deployment
 
-### Backend
-- **fastapi**: Web framework
-- **uvicorn**: ASGI server
-- **Pillow**: Image processing
-- **piexif**: EXIF extraction and manipulation
-- **exifread**: Alternative EXIF reader
-- **python-magic-bin**: MIME type detection
-- **pytest**: Testing framework
+### Backend (Production)
+```bash
+# Install Gunicorn
+pip install gunicorn
 
-### Frontend
-- **Vanilla HTML/CSS/JavaScript**: Pure vanilla implementation with no framework
-- **http-server**: Static file serving
+# Run with production settings
+gunicorn app:app --workers 4 --worker-class uvicorn.workers.UvicornWorker
+```
+
+### Frontend (Production)
+```bash
+# The frontend requires no build step
+# Serve with any static web server:
+
+# Using Python
+python -m http.server 5173 --directory frontend
+
+# Using Node.js http-server
+npx http-server frontend -p 5173
+
+# Or use nginx, Apache, etc.
+```
 
 ## Building for Production
 
@@ -271,107 +300,87 @@ Your frontend will be available at: `https://dustin04x.github.io/Metascan/`
 
 ### Using the Deployed Frontend
 
-The deployed frontend needs a backend to function. You have two options:
-
-**Option 1: Use a Local Backend**
-1. Clone the repository locally
-2. Follow the "Running the Application" section above
-3. The local frontend will connect to your local backend (http://localhost:8000)
-
-**Option 2: Deploy Backend Separately** (Advanced)
-- Deploy the backend to a service like Heroku, AWS, DigitalOcean, etc.
-- Modify `frontend/app.js` line with the API endpoint to point to your deployed backend
-
-## Building for Production
-
-### Backend
-
-```bash
-# No special build needed; run with Gunicorn or similar:
-pip install gunicorn
-gunicorn app:app --workers 4 --worker-class uvicorn.workers.UvicornWorker
-```
-
-### Frontend
-
-The frontend is vanilla HTML/CSS/JavaScript and requires no build step.
-Simply serve the `frontend/` folder with any static web server:
-
-```bash
-# Using Node.js http-server:
-npm run dev
-
-# Or with any other server (nginx, Apache, Python, etc.)
-python -m http.server 5173 --directory frontend
-```
+The deployed frontend needs a backend to function. See `DEPLOYMENT.md` for detailed instructions on:
+- Running a local backend
+- Deploying backend to a production service
+- Connecting frontend to your backend
 
 ## Known Limitations & Future Improvements
 
-- **Hex viewer** is currently a stub (requires backend integration to stream raw bytes)
-- **XMP/IPTC extraction** is basic; complex nested structures may not parse fully
-- **GPS reverse geocoding** is not implemented (opt-in, requires external service)
-- **Performance**: Large images (>50MB) are rejected; adjust limit as needed
-- **Format support**: Primarily tested on JPEG and PNG; TIFF, WebP support via Pillow
+- **Hex Viewer**: Currently a stub, requires backend integration for raw byte streaming
+- **XMP/IPTC Parsing**: Complex nested structures may not parse fully
+- **GPS Reverse Geocoding**: Not implemented (opt-in, requires external service)
+- **File Size Limit**: Large images (>50MB) are rejected by default
+- **Format Support**: Primarily tested on JPEG and PNG; TIFF, WebP support via Pillow
 
-## Configuration
+## 🔍 Troubleshooting
 
-### Backend
+### Common Issues
 
-Edit `backend/app.py` to customize:
-- `MAX_FILE_SIZE`: Change the file size limit (currently 50MB)
-- CORS origins: Modify `allow_origins` for production
-- Host/port: Change in `uvicorn.run()` call
+#### CORS Error
+**Issue**: Frontend cannot connect to backend
+**Solution**: Ensure backend is running on `http://localhost:8000` and check CORS configuration
 
-### Frontend
-
-Edit `frontend/app.js` to customize:
-- Backend API endpoint (currently `http://localhost:8000`)
-- Tab names and behavior
-- Result display formatting
-
-## Troubleshooting
-
-**Q: CORS error when connecting frontend to backend**
-```
-A: Ensure backend is running on http://localhost:8000 and frontend proxy 
-   is configured correctly in vite.config.js
+#### Python Magic Installation (Windows)
+**Issue**: `python-magic` not found
+**Solution**: The requirements include `python-magic-bin` for Windows. If issues persist:
+```bash
+pip install python-magic-bin
 ```
 
-**Q: "python-magic" not found on Windows**
-```
-A: The requirements.txt includes python-magic-bin (Windows binary version).
-   If issues persist, install: pip install python-magic-bin
-```
+#### No EXIF Data
+**Issue**: Images show no metadata
+**Explanation**: Some images (screenshots, web graphics) don't contain EXIF data. This is normal and will be flagged as an anomaly.
 
-**Q: No EXIF data on some images**
-```
-A: Some images (screenshots, web graphics) may not include EXIF.
-   This is normal and flagged as an anomaly.
-```
-
-**Q: Large images fail to upload**
-```
-A: Default limit is 50MB. Increase in backend app.py:
-   if len(file_bytes) > 50 * 1024 * 1024:  # Change this
+#### Upload Failures
+**Issue**: Large images fail to upload
+**Solution**: Increase file size limit in `backend/app.py`:
+```python
+if len(file_bytes) > 50 * 1024 * 1024:  # Change this value
 ```
 
-## Sample Image for Testing
+## 🎯 Use Cases
 
-To test the application, use any JPEG or PNG image. For images with GPS:
-- Use photos taken with a smartphone or GPS-enabled camera
-- Or use the sample images online (e.g., from camera manufacturer test suites)
+- **Digital Forensics**: Analyze images for legal/investigative purposes
+- **Privacy Assessment**: Identify embedded metadata that might reveal personal information
+- **Image Verification**: Verify image integrity through cryptographic hashes
+- **Steganography Detection**: Detect hidden data using LSB analysis
+- **Educational Research**: Learn about image metadata and digital forensics
 
-## License
+## 🔒 Privacy Statement
 
-This project is provided as-is for educational and research purposes.
+This application processes all images locally on your machine. **No images, metadata, or analysis results are sent to external servers**. However, note that:
 
-## Support & Contributing
+- Metadata remains in your browser session until refresh
+- Your browser may cache image data
+- For production use, implement explicit privacy policies
 
-For issues, improvements, or contributions:
-1. Test locally with `pytest` and browser DevTools
-2. Check error logs in console (backend terminal and browser console)
-3. Ensure dependencies are installed correctly
+## 📝 Sample Testing
+
+To test the application:
+1. Use any JPEG or PNG image
+2. For GPS data testing, use photos from smartphones or GPS-enabled cameras
+3. Download sample forensic images from camera manufacturer test suites
+
+## 🤝 Contributing
+
+1. Test your changes locally with `pytest` and browser DevTools
+2. Check error logs in both backend terminal and browser console
+3. Ensure all dependencies are correctly installed
+4. Submit issues and improvements via GitHub
+
+## 📄 License
+
+This project is provided as-is for educational and research purposes. See [LICENSE](LICENSE) for more details.
+
+## 🛠️ Technologies Used
+
+- **Backend**: Python 3.11+, FastAPI, Uvicorn
+- **Image Processing**: Pillow, piexif, exifread
+- **Frontend**: Vanilla HTML, CSS, JavaScript
+- **Development**: Node.js, http-server, pytest
 
 ---
 
-**Made with ❤️ for digital forensics and metadata analysis.**
+**⚡ Start analyzing images locally with MetaScan - your privacy-focused forensics solution!**
+
