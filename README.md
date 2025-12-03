@@ -277,41 +277,6 @@ npm run dev
 python -m http.server 5173 --directory frontend
 ```
 
-## Deployment to GitHub Pages
-
-The frontend is automatically deployed to GitHub Pages when you push to the main branch.
-
-### Setup (One-time)
-
-1. Go to your GitHub repository settings
-2. Navigate to **Settings → Pages**
-3. Set **Source** to "Deploy from a branch"
-4. Set **Branch** to `main` and folder to `/ (root)`
-5. Click **Save**
-
-### Auto-Deploy with GitHub Actions
-
-The repository includes a GitHub Actions workflow (`.github/workflows/deploy.yml`) that automatically:
-- Installs dependencies
-- Builds the frontend
-- Deploys to GitHub Pages on every push to `main`
-
-Your frontend will be available at: `https://dustin04x.github.io/Metascan/`
-
-### Using the Deployed Frontend
-
-The deployed frontend needs a backend to function. See `DEPLOYMENT.md` for detailed instructions on:
-- Running a local backend
-- Deploying backend to a production service
-- Connecting frontend to your backend
-
-## Known Limitations & Future Improvements
-
-- **Hex Viewer**: Currently a stub, requires backend integration for raw byte streaming
-- **XMP/IPTC Parsing**: Complex nested structures may not parse fully
-- **GPS Reverse Geocoding**: Not implemented (opt-in, requires external service)
-- **File Size Limit**: Large images (>50MB) are rejected by default
-- **Format Support**: Primarily tested on JPEG and PNG; TIFF, WebP support via Pillow
 
 ## 🔍 Troubleshooting
 
